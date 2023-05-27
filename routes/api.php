@@ -5,6 +5,7 @@ use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/post',[PostController::class,'index']);
 Route::get('/post/{id}',[PostController::class,'show']);
+Route::post('/post',[PostController::class,'store']);
+Route::post('/comment',[CommentController::class,'store']);
