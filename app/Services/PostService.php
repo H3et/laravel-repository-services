@@ -48,4 +48,26 @@ class PostService
         return $this->postRepository->getById($id);
     }
 
+     /**
+     * Validate post data.
+     * Store to DB if there are no errors.
+     *
+     * @param array $data
+     * @return String
+     */
+    public function savePostData($data)
+    {
+        $validator = Validator::make($data, [
+            'data' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+
+        $result = $this->postRepository->save($data);
+
+        return $result;
+    }
+
 }

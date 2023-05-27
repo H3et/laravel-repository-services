@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class PostRepository
 {
@@ -41,5 +42,24 @@ class PostRepository
             ->where('id', $id)
             ->with('comment')
             ->get();
+    }
+
+    /**
+     * Save Post
+     *
+     * @param $data
+     * @return Post
+     */
+    public function save($data)
+    {
+        $post = new $this->post;
+
+        $post->data = $data['data'];
+       // $post->user_id = Auth::id();
+        $post->user_id = 1;
+
+        $post->save();
+
+        return $post->fresh();
     }
 }

@@ -55,6 +55,32 @@ class PostController extends Controller
         //
     }
 
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->only([
+            'data',
+        ]);
+
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->postService->savePostData($data);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
+    }
+
     /**
      * Display the specified resource.
      *
