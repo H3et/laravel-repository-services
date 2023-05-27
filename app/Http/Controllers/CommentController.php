@@ -4,9 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
-
+use App\Services\CommentService;
+use Exception;
 class CommentController extends Controller
 {
+
+    /**
+     * @var commentService
+     */
+    protected $commentService;
+
+    /**
+     * PostController Constructor
+     *
+     * @param CommentService $commentService
+     *
+     */
+    public function __construct(CommentService $commentService)
+    {
+        $this->commentService = $commentService;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -23,12 +42,32 @@ class CommentController extends Controller
         //
     }
 
-    /**
+       /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only([
+            'comment',
+            'userId',
+            'postId',
+        ]);
+
+        $result = ['status' => 200];
+
+        try {
+            $result['comment'] = $this->commentService->saveCommentData($data);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
     }
 
     /**
