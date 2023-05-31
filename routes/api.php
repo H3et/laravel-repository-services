@@ -26,3 +26,5 @@ Route::get('/post',[PostController::class,'index']);
 Route::get('/post/{id}',[PostController::class,'show']);
 Route::post('/post',[PostController::class,'store']);
 Route::post('/comment',[CommentController::class,'store']);
+Route::get('/post/{postId}/comment/{userId}',[PostController::class,'getPostComments']);
+Route::get('/post/comment/{userId}',[PostController::class,'getAllPostComments']);
