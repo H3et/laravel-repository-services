@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use App\Http\Resources\UsersCollection;
 
 class UserRepository
 {
@@ -26,7 +26,7 @@ class UserRepository
 
     public function getAll()
     {
-        return $this->user->get();
+        return UsersCollection::collection($this->user->get());
     }
 
    

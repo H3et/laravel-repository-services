@@ -23,12 +23,6 @@ class CommentRepository
         $this->comment = $comment;
     }
 
-    /**
-     * Save Comment
-     *
-     * @param $data
-     * @return Comment
-     */
     public function save($data)
     {
         $comment = new $this->comment;
@@ -43,4 +37,5 @@ class CommentRepository
 
         return $comment->fresh();
     }
+
 }
