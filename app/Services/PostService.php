@@ -70,4 +70,13 @@ class PostService
         return $result;
     }
 
+    public function getCommentsById($postId, $userId)
+    {
+        return $this->postRepository->getPostCommentsById($postId, $userId);
+    }
+
+    public function getPostByUserId($userId)
+    {
+        return $this->postRepository->getAllPostCommentsByUserId($userId);
+    }
 }

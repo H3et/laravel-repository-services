@@ -3,9 +3,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Post;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
-
+use App\Http\Resources\PostsCollection;
 class PostRepository
 {
     /**
@@ -27,7 +25,7 @@ class PostRepository
 
     public function getAll()
     {
-        return $this->post->with('comment')->get();
+        return PostsCollection::collection($this->post->with('comment')->get());
     }
 
         /**
@@ -38,10 +36,10 @@ class PostRepository
      */
     public function getById($id)
     {
-        return $this->post
+        return PostsCollection::collection($this->post
             ->where('id', $id)
             ->with('comment')
-            ->get();
+            ->get());
     }
 
     /**
@@ -61,5 +59,25 @@ class PostRepository
         $post->save();
 
         return $post->fresh();
+    }
+
+    public function getPostCommentsById($postId, $userId) {
+        $posts = $this->post
+            ->where('id', $postId)
+            ->with(['comment' => function($q) use ($userId) {
+                $q->where('user_id', '=', $userId);
+            }])
+            ->get();
+        
+        return PostsCollection::collection($posts);
+    }
+
+    public function getAllPostCommentsByUserId($userId) {
+        $posts = $this->post
+                ->whereHas('comment', function($query) use($userId) {
+                    $query->whereUserId($userId);
+                })->get();
+        
+        return PostsCollection::collection($posts);
     }
 }

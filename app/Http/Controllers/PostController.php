@@ -101,4 +101,37 @@ class PostController extends Controller
         }
         return response()->json($result, $result['status']);
     }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function getPostComments($postId, $userId)
+    {
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->postService->getCommentsById($postId, $userId);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($result, $result['status']);
+    }
+
+    public function getAllPostComments($userId)
+    {
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->postService->getPostByUserId($userId);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($result, $result['status']);
+    }
 }
