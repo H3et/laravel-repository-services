@@ -29,10 +29,20 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /*public function index($postId, $userId)
     {
-        //
-    }
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->commentService->getCommentsById($postId, $userId);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($result, $result['status']);
+    }*/
 
     /**
      * Show the form for creating a new resource.
